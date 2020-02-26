@@ -3,6 +3,7 @@ import numpy as np
 
 def number_to_bitarray(array, modulo):
     holder_x = []
+    temp_holder_x = ""
     mod_x = 0
     max = 0
     for card in array:
@@ -22,15 +23,17 @@ def number_to_bitarray(array, modulo):
             max = 10
 
         card = max - card
+
         try:
             bits = bits << card
         except:
             print("bits: ", bits, "card: ", card, "max: ", max)
 
         bits = bin(bits)[2:].zfill(max)
+        temp_holder_x += bits
 
-        for bit in bits:
-            holder_x.append(int(bit))
+    for bit in temp_holder_x:
+        holder_x.append(int(bit))
 
     return holder_x
 
