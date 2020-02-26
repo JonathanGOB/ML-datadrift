@@ -23,7 +23,6 @@ def number_to_bitarray(array, modulo):
             max = 10
 
         card = max - card
-
         try:
             bits = bits << card
         except:

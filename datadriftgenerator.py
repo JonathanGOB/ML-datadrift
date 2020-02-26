@@ -1,6 +1,7 @@
 from helpers import *
 import numpy as np
 import statistics
+import random
 
 x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', False)
 print("array_x: ", x_test, "size: ", x_test[0].__len__(), "array_y: ", y_test, "size: ", y_test[0].__len__())
@@ -41,12 +42,52 @@ def chances(datay, labels):
 
     return chance_array
 
-def generatedatadriftfile(mean, std, amount, chance):
-    datadriftfile = open('datadrift.data', 'w')
-    # for i in range(amount):
+def generatedatadriftfile(mean, std, amount, chance, labels, type):
+    choices = np.random.choice(len(labels), amount, p=chance)
+
+    generated = []
+    for e in choices:
+        label_means = mean[e]
+        label_stds = std[e]
+        modulus = 0
+        column = []
+        for p in range(len(label_means)):
+            if type == "sudden_change":
+                binomial = np.random.choice(2, 1, p=[0.5, 0.5])
+                value = None
+                if binomial == 0:
+                    value = label_means[p] - (1.5 * label_stds[p]) + random.randrange(0, 3)
+
+                if binomial == 1:
+                    value = label_means[p] + (1.5 * label_stds[p]) + random.randrange(0, 3)
+
+                value = int(value)
+
+                if modulus % 2 == 0 and value < 1:
+                    value = 1
+
+                if modulus % 2 == 0 and value > 4:
+                    value = 4
+
+                if modulus % 2 == 1 and value < 1:
+                    value = 1
+
+                if modulus % 2 == 1 and value > 13:
+                    value = 13
+
+                column.append(value)
+                modulus += 1
+
+        column.append(e)
+        generated.append(column)
+
+    generated = np.array(generated)
+    np.savetxt('D:/Datasets/Poker/poker' + type + '.data', generated, fmt='%i', delimiter=',')
+
+
 
 labels = [e for e in range(0, 10)]
 
 mean, std = categorical(x_test, y_test, labels)
 chance = chances(y_test, labels)
-generatedatadriftfile(mean, std, 100000, chance)
+generatedatadriftfile(mean, std, 100000, chance, labels, "sudden_change")
