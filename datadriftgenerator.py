@@ -26,6 +26,27 @@ def categorical(datax, datay, labels):
 
     return array_mean, array_std
 
+def chances(datay, labels):
+    window = np.array([0 for e in range(len(labels))])
+    for i in range(len(datay)):
+        window[datay[i]] += 1
+
+    size = len(datay)
+
+    chance_array = []
+    for i in range(len(window)):
+        chance_array.append(window[i] / size)
+
+    chance_array = np.array(chance_array)
+
+    return chance_array
+
+def generatedatadriftfile(mean, std, amount, chance):
+    datadriftfile = open('datadrift.data', 'w')
+    # for i in range(amount):
 
 labels = [e for e in range(0, 10)]
-categorical(x_test, y_test, labels)
+
+mean, std = categorical(x_test, y_test, labels)
+chance = chances(y_test, labels)
+generatedatadriftfile(mean, std, 100000, chance)
