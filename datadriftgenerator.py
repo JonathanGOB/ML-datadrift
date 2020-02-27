@@ -62,7 +62,7 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
 
     print("generating labels with the probabilities")
     for i in tqdm(range(amount)):
-        choices.append(np.random.choice(len(labels), p=chance))
+        choices.append(random.choices(labels, chance)[0])
 
     generated = []
 
@@ -74,7 +74,7 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
         column = []
         for p in range(len(label_means)):
             if type == "sudden-change":
-                binomial = np.random.choice(2, 1, p=[0.5, 0.5])
+                binomial = random.choices([0, 1], [0.5, 0.5], k=1)[0]
                 value = None
                 if binomial == 0:
                     value = label_means[p] - (3 * label_stds[p])
@@ -87,8 +87,8 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
                 column.append(value)
 
             if type == "gradual-change":
-                binomial = np.random.choice(2, 1, p=[0.5, 0.5])
-                context_switch = np.random.choice(2, 1, p=[0.5, 0.5])
+                binomial = random.choices([0, 1], [0.5, 0.5], k=1)[0]
+                context_switch = random.choices([0, 1], [0.5, 0.5], k=1)[0]
                 value = None
                 if context_switch != 1:
                     if binomial == 0:
@@ -122,7 +122,4 @@ labels = [e for e in range(0, 10)]
 
 mean, std = categorical(x_test, y_test, labels)
 chance = chances(y_test, labels, False)
-try:
-    generatedatadriftfile(mean, std, 10000000, chance, labels, sys.argv[1])
-except:
-    print("pass argument")
+generatedatadriftfile(mean, std, int(sys.argv[2]), chance, labels, sys.argv[1])
