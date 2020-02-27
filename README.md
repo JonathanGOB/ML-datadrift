@@ -1,6 +1,6 @@
 # ML poker
  
-##A neural network made with this [dataset](https://archive.ics.uci.edu/ml/datasets/Poker+Hand)
+## A neural network made with this [dataset](https://archive.ics.uci.edu/ml/datasets/Poker+Hand)
 Each record is an example of a hand consisting of five playing
      cards drawn from a standard deck of 52. Each card is described
      using two attributes (suit and rank), for a total of 10 predictive
@@ -11,7 +11,7 @@ Each record is an example of a hand consisting of five playing
 ## datadriftgenerator
 This python file generates datadrift and makes new patterns depending on the overal mean and standard deviations from the dataset.
 
-##format
+## format
 
 1) S1 “Suit of card #1”
       Ordinal (1-4) representing {Hearts, Spades, Diamonds, Clubs}
