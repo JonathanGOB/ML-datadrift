@@ -66,7 +66,6 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
         modulus = 0
         column = []
         for p in range(len(label_means)):
-            bar.next()
             if type == "sudden-change":
                 binomial = np.random.choice(2, 1, p=[0.5, 0.5])
                 value = None
@@ -99,7 +98,7 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
                 column.append(value)
                 modulus += 1
 
-
+        bar.next()
         column.append(e)
         generated.append(column)
 
