@@ -6,14 +6,17 @@ import statistics
 import random
 from tqdm import tqdm
 import threading
+import sys
 
 x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', False)
-print("array_x: ", x_test, "size: ", x_test[0].__len__(), "array_y: ", y_test, "size: ", y_test[0].__len__())
+print("array_x ", "size: ", x_test[0].__len__(), "array_y ", "size: ", y_test[0].__len__())
 
 
 def categorical(datax, datay, labels):
     window = np.array([[[[] for e in range(0, datax[0].__len__())], [label]] for label in labels])
-    for i in range(len(datax)):
+
+    print("collecting all columns for mean and standard deviation")
+    for i in tqdm(range(len(datax))):
         rowx = datax[i]
         rowy = datay[i]
         for p in range(len(rowx)):
@@ -119,4 +122,7 @@ labels = [e for e in range(0, 10)]
 
 mean, std = categorical(x_test, y_test, labels)
 chance = chances(y_test, labels, False)
-generatedatadriftfile(mean, std, 1000000, chance, labels, "incremental-change")
+try:
+    generatedatadriftfile(mean, std, 10000000, chance, labels, sys.argv[1])
+except:
+    print("pass argument")

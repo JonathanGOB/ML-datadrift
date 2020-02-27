@@ -1,5 +1,7 @@
 import numpy as np
 
+from tqdm import tqdm, trange
+
 
 # bad example
 def number_to_bitarray(array, modulo):
@@ -103,23 +105,26 @@ def improved_number_to_bit_array(array, modulo):
 def loaddata(location, bits):
     # load datasets
     learning_set = open(location, 'r')
+    num_lines = sum(1 for line in open(location))
     lines = learning_set.readline()
     x = []
     y = []
 
     once = False
-    while lines:
-        container = list(map(int, lines.split(",")))
+    print("reading dataset")
+    with trange(num_lines) as t:
+        for i in t:
+            container = list(map(int, lines.split(",")))
 
-        if (bits):
-            x.append(improved_number_to_bit_array(container[:-1], True))
-            y.append(improved_number_to_bit_array(container[-1:], False))
+            if (bits):
+                x.append(improved_number_to_bit_array(container[:-1], True))
+                y.append(improved_number_to_bit_array(container[-1:], False))
 
-        if not bits:
-            x.append(container[:-1])
-            y.append(container[-1:])
+            if not bits:
+                x.append(container[:-1])
+                y.append(container[-1:])
 
-        lines = learning_set.readline()
+            lines = learning_set.readline()
 
     x = np.array(x)
     y = np.array(y)
