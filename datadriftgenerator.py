@@ -2,7 +2,6 @@ from helpers import *
 import numpy as np
 import statistics
 import random
-
 x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', False)
 print("array_x: ", x_test, "size: ", x_test[0].__len__(), "array_y: ", y_test, "size: ", y_test[0].__len__())
 
@@ -56,24 +55,12 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
                 binomial = np.random.choice(2, 1, p=[0.5, 0.5])
                 value = None
                 if binomial == 0:
-                    value = label_means[p] - (1.5 * label_stds[p]) + random.randrange(0, 3)
+                    value = label_means[p] - (3 * label_stds[p])
 
                 if binomial == 1:
-                    value = label_means[p] + (1.5 * label_stds[p]) + random.randrange(0, 3)
+                    value = label_means[p] + (3 * label_stds[p])
 
                 value = int(value)
-
-                if modulus % 2 == 0 and value < 1:
-                    value = 1
-
-                if modulus % 2 == 0 and value > 4:
-                    value = 4
-
-                if modulus % 2 == 1 and value < 1:
-                    value = 1
-
-                if modulus % 2 == 1 and value > 13:
-                    value = 13
 
                 column.append(value)
                 modulus += 1

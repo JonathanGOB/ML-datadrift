@@ -10,10 +10,10 @@ x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', True)
 
 print("array_x: ", x_train, "size: ", x_train[0].__len__(), "array_y: ", y_train, "size: ", y_train[0].__len__())
 
-inputs = keras.Input(shape=(85,), name="hand")
-hiddenlayer = layers.Dense(18, activation='sigmoid', name="dense1")(inputs)
-hiddenlayer = layers.Dense(10, activation='sigmoid', name="dense2")(hiddenlayer)
-outputs = layers.Dense(10, name="prediction")(hiddenlayer)
+inputs = keras.Input(shape=(110,), name="hand")
+hiddenlayer = layers.Dense(18, activation='relu', name="dense1")(inputs)
+hiddenlayer = layers.Dense(10, activation='relu', name="dense2")(hiddenlayer)
+outputs = layers.Dense(y_train.shape[1], name="prediction", activation='sigmoid')(hiddenlayer)
 
 model = keras.Model(inputs=inputs, outputs=outputs)
 
