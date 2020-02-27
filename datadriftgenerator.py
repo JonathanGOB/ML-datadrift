@@ -9,7 +9,6 @@ import threading
 import sys
 
 x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', False)
-print("array_x ", "size: ", x_test[0].__len__(), "array_y ", "size: ", y_test[0].__len__())
 
 
 def categorical(datax, datay, labels):
@@ -45,7 +44,7 @@ def chances(datay, labels, random):
 
     chance_array = []
 
-    print("creating probabilities per collumn")
+    print("creating probabilities per column")
     for i in tqdm(range(len(window))):
         chance_array.append(window[i] / size)
 

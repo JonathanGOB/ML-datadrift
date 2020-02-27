@@ -1,7 +1,7 @@
 import numpy as np
 
 from tqdm import tqdm, trange
-
+from tabulate import tabulate
 
 # bad example
 def number_to_bitarray(array, modulo):
@@ -128,6 +128,8 @@ def loaddata(location, bits):
 
     x = np.array(x)
     y = np.array(y)
+
+    print(tabulate([["x", len(x), len(x[0]), x[0]], ["y", len(y), len(y[0]), y[0]]], headers=["name", "total length", "row length", "row example"], tablefmt='orgtbl'))
 
     return x, y
 
