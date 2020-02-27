@@ -2,6 +2,7 @@ from helpers import *
 import numpy as np
 import statistics
 import random
+
 x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', False)
 print("array_x: ", x_test, "size: ", x_test[0].__len__(), "array_y: ", y_test, "size: ", y_test[0].__len__())
 
@@ -17,6 +18,7 @@ def categorical(datax, datay, labels):
 
     array_mean = []
     array_std = []
+
     for i in range(len(window)):
         array_mean.append(np.mean(window[i][0], axis=1))
         array_std.append(np.std(window[i][0], axis=1))
@@ -26,7 +28,8 @@ def categorical(datax, datay, labels):
 
     return array_mean, array_std
 
-def chances(datay, labels):
+
+def chances(datay, labels, random):
     window = np.array([0 for e in range(len(labels))])
     for i in range(len(datay)):
         window[datay[i]] += 1
@@ -39,7 +42,11 @@ def chances(datay, labels):
 
     chance_array = np.array(chance_array)
 
+    if random:
+        np.random.shuffle(chance_array)
+
     return chance_array
+
 
 def generatedatadriftfile(mean, std, amount, chance, labels, type):
     choices = np.random.choice(len(labels), amount, p=chance)
@@ -55,10 +62,10 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
                 binomial = np.random.choice(2, 1, p=[0.5, 0.5])
                 value = None
                 if binomial == 0:
-                    value = label_means[p] - (3 * label_stds[p])
+                    value = label_means[p] - (5 * label_stds[p])
 
                 if binomial == 1:
-                    value = label_means[p] + (3 * label_stds[p])
+                    value = label_means[p] + (5 * label_stds[p])
 
                 value = int(value)
 
@@ -72,9 +79,8 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
     np.savetxt('D:/Datasets/Poker/poker' + type + '.data', generated, fmt='%i', delimiter=',')
 
 
-
 labels = [e for e in range(0, 10)]
 
 mean, std = categorical(x_test, y_test, labels)
-chance = chances(y_test, labels)
+chance = chances(y_test, labels, True)
 generatedatadriftfile(mean, std, 100000, chance, labels, "sudden_change")
