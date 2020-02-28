@@ -2,8 +2,9 @@ import numpy as np
 
 from tqdm import tqdm, trange
 from tabulate import tabulate
+import settings
 
-# bad example
+# bad example of bit pusher
 def number_to_bitarray(array, modulo):
     holder_x = []
     temp_holder_x = ""
@@ -37,7 +38,8 @@ def number_to_bitarray(array, modulo):
     return holder_x
 
 
-# better
+# loads number to bit and pushes them to the right without overflow
+# also has a signed bit at the beginning for negative numbers
 def improved_number_to_bit_array(array, modulo):
     holder = []
     temp_holder = ""
@@ -51,21 +53,21 @@ def improved_number_to_bit_array(array, modulo):
                 complement = 1
 
             if (mod % 2) == 1:
-                bits = 8192 | bits
-                maximum = 14
+                bits = settings.SBits | bits
+                maximum = settings.S
             if (mod % 2) == 0:
-                bits = 32 | bits
-                maximum = 6
+                bits = settings.CBits | bits
+                maximum = settings.C
 
             mod += 1
 
         if not modulo:
-            bits = 512 | bits
+            bits = settings.LBits | bits
 
             if card < 0:
                 complement = 1
 
-            maximum = 10
+            maximum = settings.L
 
         card = abs(card)
         temp_maximum = maximum - 1
@@ -101,9 +103,9 @@ def improved_number_to_bit_array(array, modulo):
 
     return holder
 
-
 def loaddata(location, bits):
-    # load datasets
+
+    # load datasets and converts them to bits if true
     learning_set = open(location, 'r')
     num_lines = sum(1 for line in open(location))
     lines = learning_set.readline()
@@ -134,6 +136,7 @@ def loaddata(location, bits):
     return x, y
 
 
+#splits list in half
 def split_list(a_list):
     half = len(a_list) // 2
     return a_list[:half], a_list[half:]
