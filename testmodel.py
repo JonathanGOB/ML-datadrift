@@ -3,9 +3,9 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from helpers import *
 
-x_test, y_test = loaddata('D:/Datasets/Poker/poker-sudden-change.data', True)
+x_test, y_test = loaddata('D:/Datasets/Poker/poker-incremental-change.data', True)
 
-loaded = load_model('poker_predictor.h5')
+loaded = load_model('models/poker_predictor.h5')
 
 # Check its architecture
 loaded.summary()

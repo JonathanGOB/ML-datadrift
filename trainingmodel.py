@@ -10,7 +10,7 @@ x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', True)
 
 inputs = keras.Input(shape=(110,), name="hand")
 hiddenlayer = layers.Dense(25, activation='relu', name="dense1")(inputs)
-hiddenlayer = layers.Dense(14, activation='relu', name="dense2")(hiddenlayer)
+hiddenlayer = layers.Dense(17, activation='relu', name="dense2")(hiddenlayer)
 outputs = layers.Dense(y_train.shape[1], name="prediction", activation='sigmoid')(hiddenlayer)
 
 model = keras.Model(inputs=inputs, outputs=outputs)
@@ -20,7 +20,7 @@ model.compile(optimizer=keras.optimizers.Adam(), loss='mean_squared_error')
 print('# Fit model on training data')
 history = model.fit(x_train, y_train,
                     batch_size=32,
-                    epochs=10,
+                    epochs=20,
                     # We pass some validation for
                     # monitoring validation loss and metrics
                     # at the end of each epoch
@@ -32,4 +32,4 @@ print('\nhistory dict:', history.history)
 print('\n# Evaluate on test data')
 results = model.evaluate(x_test, y_test, batch_size=32)
 print('test loss, test acc:', results)
-model.save('poker_predictor.h5')
+model.save('models/poker_predictor.h5')
