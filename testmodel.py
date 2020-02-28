@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from helpers import *
 
-x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-training-true.data', True)
+x_test, y_test = loaddata('D:/Datasets/Poker/poker-sudden-change.data', True)
 
 loaded = load_model('poker_predictor.h5')
 

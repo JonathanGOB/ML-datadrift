@@ -103,7 +103,7 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
                 column.append(value)
 
             if type == "incremental-change":
-                label_means[p] = label_means[p] + (0.0000025 * label_stds[p])
+                label_means[p] = label_means[p] + (0.000025 * label_stds[p])
                 value = int(label_means[p])
                 column.append(value)
 

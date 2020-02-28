@@ -111,7 +111,7 @@ def loaddata(location, bits):
     y = []
 
     once = False
-    print("loading dataset")
+    print("loading dataset {0}. bits on? {1}".format(location, bits))
     with trange(num_lines) as t:
         for i in t:
             container = list(map(int, lines.split(",")))
