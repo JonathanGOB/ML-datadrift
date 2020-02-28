@@ -8,7 +8,7 @@ from helpers import *
 x_train, y_train = loaddata('D:/Datasets/Poker/poker-hand-training-true.data', True)
 x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-testing.data', True)
 
-inputs = keras.Input(shape=(110,), name="hand")
+inputs = keras.Input(shape=(x_train.shape[1],), name="hand")
 hiddenlayer = layers.Dense(25, activation='relu', name="dense1")(inputs)
 hiddenlayer = layers.Dense(17, activation='relu', name="dense2")(hiddenlayer)
 outputs = layers.Dense(y_train.shape[1], name="prediction", activation='sigmoid')(hiddenlayer)

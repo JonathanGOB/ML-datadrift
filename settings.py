@@ -1,9 +1,9 @@
 #c cards
-C = 6
+C = 7
 CBits = 2**(C - 1)
 
 #s cards
-S = 14
+S = 15
 SBits = 2**(S - 1)
 
 #label
