@@ -18,3 +18,9 @@ gradualchange = 3
 
 #percentage standard deviation incremental per generated row
 incrementchange = 0.000025
+
+# N for datadrift
+N = 10000
+
+# K for normal
+K = 100000

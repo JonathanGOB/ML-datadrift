@@ -56,8 +56,40 @@ def chances(datay, labels, random):
 
     return chance_array
 
+def suddenchange(mean, std):
+    binomial = random.choices([0, 1], [0.5, 0.5], k=1)[0]
+    value = None
+    if binomial == 0:
+        value = mean - (settings.suddenchange * std)
+    if binomial == 1:
+        value = mean + (settings.suddenchange * std)
+    
+    value = int(value)
+    return value
+
+def gradualchange(mean, std):
+    binomial = random.choices([0, 1], [0.5, 0.5], k=1)[0]
+    context_switch = random.choices([0, 1], [0.5, 0.5], k=1)[0]
+    value = None
+    if context_switch != 1:
+        if binomial == 0:
+            value = mean - (settings.gradualchange * std)
+
+        if binomial == 1:
+            value = mean + (settings.gradualchange * std)
+    else:
+        value = mean
+
+    value = int(value)
+    return value
+
+def incrementalchange(mean, std , index):
+    mean[p] = mean[index] + (settings.incrementchange * mean[index])
+    value = int(mean[index])
+    return value
+
 # generates datadrift with the mean, std, amount of rows, chances per label, label itself and type of drift
-def generatedatadriftfile(mean, std, amount, chance, labels, type):
+def generatedatadriftfile(mean, std, amount, chance, labels, type, contextswitcher):
     choices = []
 
     print("generating labels with the probabilities")
@@ -65,50 +97,49 @@ def generatedatadriftfile(mean, std, amount, chance, labels, type):
         choices.append(random.choices(labels, chance)[0])
 
     generated = []
-
+    on = False
     print("generating {0} data drift".format(type))
+    count = 1
     for e in tqdm(range(len(choices))):
         label_means = mean[choices[e]]
         label_stds = std[choices[e]]
-        modulus = 0
         column = []
         for p in range(len(label_means)):
-            if type == "sudden-change":
-                binomial = random.choices([0, 1], [0.5, 0.5], k=1)[0]
-                value = None
-                if binomial == 0:
-                    value = label_means[p] - (settings.suddenchange * label_stds[p])
+            if on and contextswitcher:
+                if type == "sudden-change":
+                    column.append(suddenchange(label_means[p], label_stds[p]))
 
-                if binomial == 1:
-                    value = label_means[p] + (settings.suddenchange * label_stds[p])
+                if type == "gradual-change":
+                    column.append(gradualchange(label_means[p], label_stds[p]))
+        
+                if type == "incremental-change":
+                    column.append(incrementalchange(label_means, label_stds, p))
 
-                value = int(value)
+                if count == settings.N:
+                    print("switcher N")
+                    count = 0
+                    on = False
 
+            elif not on and contextswitcher:
+                # mean plus noise
+                value = label_means[p] + random.randint(0, int(label_stds[p]))
                 column.append(value)
+                if count == settings.K:
+                    print("switcher K")
+                    count = 0
+                    on = True
+            
+            elif not contextswitcher:
+                if type == "sudden-change":
+                    column.append(suddenchange(label_means[p], label_stds[p]))
 
-            if type == "gradual-change":
-                binomial = random.choices([0, 1], [0.5, 0.5], k=1)[0]
-                context_switch = random.choices([0, 1], [0.5, 0.5], k=1)[0]
-                value = None
-                if context_switch != 1:
-                    if binomial == 0:
-                        value = label_means[p] - (settings.gradualchange * label_stds[p])
+                if type == "gradual-change":
+                    column.append(gradualchange(label_means[p], label_stds[p]))
+        
+                if type == "incremental-change":
+                    column.append(incrementalchange(label_means, label_stds, p))
 
-                    if binomial == 1:
-                        value = label_means[p] + (settings.gradualchange * label_stds[p])
-                else:
-                    value = label_means[p]
-
-                value = int(value)
-
-                column.append(value)
-
-            if type == "incremental-change":
-                label_means[p] = label_means[p] + (settings.incrementchange * label_stds[p])
-                value = int(label_means[p])
-                column.append(value)
-
-            modulus += 1
+        count += 1
         column.append(choices[e])
         generated.append(column)
 
@@ -122,4 +153,5 @@ labels = [e for e in range(0, 10)]
 
 mean, std = categorical(x_test, y_test, labels)
 chance = chances(y_test, labels, False)
-generatedatadriftfile(mean, std, int(sys.argv[2]), chance, labels, sys.argv[1])
+contextswitcher = sys.argv[3] 
+generatedatadriftfile(mean, std, int(sys.argv[2]), chance, labels, sys.argv[1], eval(sys.argv[3]))
