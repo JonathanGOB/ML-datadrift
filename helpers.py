@@ -42,7 +42,7 @@ def number_to_bitarray(array, modulo):
 def categorical(datax, datay, labels):
     window = np.array([[[[] for e in range(0, datax[0].__len__())], [label]] for label in labels])
 
-    print("collecting all columns for mean and standard deviation")
+    print("# Collecting all columns for mean and standard deviation")
     for i in tqdm(range(len(datax))):
         rowx = datax[i]
         rowy = datay[i]
@@ -52,7 +52,7 @@ def categorical(datax, datay, labels):
     array_mean = []
     array_std = []
 
-    print("creating mean and standard deviation")
+    print("# Creating mean and standard deviation")
     for i in tqdm(range(len(window))):
         array_mean.append(np.mean(window[i][0], axis=1))
         array_std.append(np.std(window[i][0], axis=1))
@@ -72,7 +72,7 @@ def chances(datay, labels, random):
 
     chance_array = []
 
-    print("creating probabilities per column")
+    print("# Creating probabilities per column")
     for i in tqdm(range(len(window))):
         chance_array.append(window[i] / size)
 
@@ -118,7 +118,7 @@ def incrementalchange(mean, std , index):
 def generatelabels(chance, labels, amount):
     choices = []
 
-    print("generating labels with the probabilities")
+    print("# Generating labels with the probabilities")
     for i in tqdm(range(amount)):
         choices.append(random.choices(labels, chance)[0])
 
@@ -128,13 +128,13 @@ def generatelabels(chance, labels, amount):
 def generatedatadriftfile(mean, std, amount, chance, labels, type, contextswitcher):
     choices = []
 
-    print("generating labels with the probabilities")
+    print("# Generating labels with the probabilities")
     for i in tqdm(range(amount)):
         choices.append(random.choices(labels, chance)[0])
 
     generated = []
     on = False
-    print("generating {0} data drift".format(type))
+    print("# Generating {0} data drift".format(type))
     count = 1
     for e in tqdm(range(len(choices))):
         label_means = mean[choices[e]]

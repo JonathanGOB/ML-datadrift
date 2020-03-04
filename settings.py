@@ -20,7 +20,7 @@ gradualchange = 3
 incrementchange = 0.000025
 
 # N for datadrift
-N = 10000
+N = 100000
 
 # K for normal
 K = 100000
