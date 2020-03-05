@@ -26,7 +26,7 @@ def learnpatterns(x, y, labels):
     return patterns
 
 
-def generatenormallist(dict_patterns, chances, type, labels):
+def generatenormallist(dict_patterns, chances, type, labels, contextswitcher):
     return_list = []
     print("# Generating list")
     count = 1
@@ -38,61 +38,81 @@ def generatenormallist(dict_patterns, chances, type, labels):
             y = chances[index]
             x_list = dict_patterns[y]
             key = random.choice(list(x_list.keys()))
-            x = x_list[key]
+            x = x_list[key].copy()
             x.append(y)
             return_list.append(x)
         if type == "sudden-change":
-            y = chances[index]
+            y = copy.deepcopy(chances[index])
             x_list = dict_patterns[y]
-            if not on and not started:     
-                started = True
-                not_found = True
-                while not_found:
-                    C = [random.randint(1, 13) for e in range(5)]
-                    S = [random.randint(1, 4) for e in range(5)]
-                    CS = tuple(item for sublist in list((zip(S, C))) for item in sublist)
-                    CS_HASH = hash(CS)
+            if contextswitcher:
+                if not on and not started:     
+                    started = True
+                    # not_found = True
+                    # while not_found:
+                    #     C = [random.randint(1, 13) for e in range(5)]
+                    #     S = [random.randint(1, 4) for e in range(5)]
+                    #     CS = tuple(item for sublist in list((zip(S, C))) for item in sublist)
+                    #     CS_HASH = hash(CS)
 
-                    if not CS_HASH in x_list:
-                        not_found = False
-                        CS = list(CS)
-                        CS.append(y)
-                        return_list.append(CS)
+                    #     if not CS_HASH in x_list:
+                    #         not_found = False
+                    #         CS = list(CS)
+                    #         CS.append(y)
+                    #         return_list.append(CS)
 
-                # fast, but doesnt always mean uniqueness
-                # C = [random.randint(1, 13) for e in range(5)]
-                # S = [random.randint(1, 4) for e in range(5)]
-                # CS = [item for sublist in list(zip(S, C)) for item in sublist]
-                # CS.append(y)
-                # return_list.append(CS)
+                    # fast, but doesnt always mean uniqueness
+                    # C = [random.randint(1, 13) for e in range(5)]
+                    # S = [random.randint(1, 4) for e in range(5)]
+                    # CS = [item for sublist in list(zip(S, C)) for item in sublist]
+                    # CS.append(y)
+                    # return_list.append(CS)
+                    
+                    #shift to the right and if end to left essentially changing the patterns
+                    old_y = copy.deepcopy(y)
+                    if y == len(labels) - 1:
+                        y = 0
+                    
+                    if y < len(labels) - 1:
+                        y += 1
+                    
+                    #print("old y: ", old_y, "new_y: ", y)
+
+                    x_list = dict_patterns[old_y]
+                    key = random.choice(list(x_list.keys()))
+                    x = copy.deepcopy(x_list[key])
+                    x.append(y)
+                    return_list.append(x)
+
+                    count += 1
+                    if count == settings.N:
+                        on = True
+                        count = 0
+
+                if on and not started:
+                    started = True
+                    key = random.choice(list(x_list.keys()))
+                    x = copy.deepcopy(x_list[key])
+                    x.append(y)
+                    return_list.append(x)
+                    count += 1
+                    if count == settings.K:
+                        on = False
+                        count = 0
+            if not contextswitcher:
+                old_y = copy.deepcopy(y)
+                if y == len(labels) - 1:
+                    y = 0
                 
-                # shift to the right and if end to left essentially changing the patterns
-                # if y == len(labels) - 1:
-                #     y = 0
+                if y < len(labels) - 1:
+                    y += 1
                 
-                # if y < len(labels) - 1:
-                #     y += 1
+                #print("old y: ", old_y, "new_y: ", y)
 
-                # x_list = dict_patterns[y]
-                # key = random.choice(list(x_list.keys()))
-                # x = x_list[key]
-                # x.append(y)
-                # return_list.append(x)
-
-                count += 1
-                if count == settings.N:
-                    on = True
-                    count = 0
-            if on and not started:
-                started = True
+                x_list = dict_patterns[old_y]
                 key = random.choice(list(x_list.keys()))
                 x = copy.deepcopy(x_list[key])
                 x.append(y)
                 return_list.append(x)
-                count += 1
-                if count == settings.K:
-                    on = False
-                    count = 0
 
 
     generated = np.array(return_list)
@@ -107,4 +127,4 @@ chance = chances(y_test, labels, False)
 chance = generatelabels(chance, labels, 1000000)
 patterns = learnpatterns(x_test, y_test, labels)
 generated = patterns
-generatenormallist(generated, chance, sys.argv[1], labels)
+generatenormallist(generated, chance, sys.argv[1], labels, eval(sys.argv[2]))
