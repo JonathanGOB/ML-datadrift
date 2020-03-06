@@ -55,9 +55,9 @@ errors, error_history = historyloss(y_predicted, y_test)
 
 y = error_history
 x = range(1, len(error_history) + 1)
-plt.plot(x, y, marker='o', linestyle='--', color='r', label='mean_absolute_percentage_error')
+plt.plot(x, y, linestyle='--', color='r', label='mean_absolute_percentage_error')
 plt.xlabel('examples')
 plt.ylabel('percentage errors overtime') 
-plt.title('sudden drift on a poker AI')
+plt.title('sudden drift on a poker hand recognizer AI')
 plt.legend()
 plt.show()
