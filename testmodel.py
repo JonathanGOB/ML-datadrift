@@ -28,7 +28,7 @@ def historyloss(predicted_y, truth_y):
             zeros += 1
         
         total = zeros + ones
-        error_history.append(ones / total)
+        error_history.append((ones / total) * 100)
 
     return error, error_history
 
@@ -55,7 +55,7 @@ errors, error_history = historyloss(y_predicted, y_test)
 
 y = error_history
 x = range(1, len(error_history) + 1)
-plt.plot(x, y, linestyle='--', color='r', label='mean_absolute_percentage_error')
+plt.plot(x, y, linestyle='--', color='r', label='mean_absolute_binomial_percentage_error')
 plt.xlabel('examples')
 plt.ylabel('percentage errors overtime') 
 plt.title('sudden drift on a poker hand recognizer AI')
