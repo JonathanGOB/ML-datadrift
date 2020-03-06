@@ -120,11 +120,11 @@ def generatenormallist(dict_patterns, chances, type, labels, contextswitcher):
     print("saving file...")
     np.savetxt('D:/Datasets/Poker/poker-' + type + '.data', generated, fmt='%i', delimiter=',')
     print("file saved")
-
-x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-training-true.data', False)
-labels = [e for e in range(0, 10)]
-chance = chances(y_test, labels, False)
-chance = generatelabels(chance, labels, 1000000)
-patterns = learnpatterns(x_test, y_test, labels)
-generated = patterns
-generatenormallist(generated, chance, sys.argv[1], labels, eval(sys.argv[2]))
+if __name__ == '__main__':
+    x_test, y_test = loaddata('D:/Datasets/Poker/poker-hand-training-true.data', False)
+    labels = [e for e in range(0, 10)]
+    chance = chances(y_test, labels, False)
+    chance = generatelabels(chance, labels, 1000000)
+    patterns = learnpatterns(x_test, y_test, labels)
+    generated = patterns
+    generatenormallist(generated, chance, sys.argv[1], labels, eval(sys.argv[2]))

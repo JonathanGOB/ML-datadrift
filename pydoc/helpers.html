@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module helpers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>helpers</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Ccode%5Cml%5Chelpers.py">d:\code\ml\helpers.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="settings.html">settings</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-categorical"><strong>categorical</strong></a>(datax, datay, labels)</dt><dd><tt>#&nbsp;returns&nbsp;mean&nbsp;and&nbsp;standard&nbsp;deviation&nbsp;for&nbsp;every&nbsp;column&nbsp;in&nbsp;every&nbsp;possible&nbsp;label</tt></dd></dl>
+ <dl><dt><a name="-chances"><strong>chances</strong></a>(datay, labels, random)</dt><dd><tt>#&nbsp;calculates&nbsp;the&nbsp;chances&nbsp;per&nbsp;label</tt></dd></dl>
+ <dl><dt><a name="-generatedatadriftfile"><strong>generatedatadriftfile</strong></a>(mean, std, amount, chance, labels, type, contextswitcher)</dt><dd><tt>#&nbsp;generates&nbsp;datadrift&nbsp;with&nbsp;the&nbsp;mean,&nbsp;std,&nbsp;amount&nbsp;of&nbsp;rows,&nbsp;chances&nbsp;per&nbsp;label,&nbsp;label&nbsp;itself&nbsp;and&nbsp;type&nbsp;of&nbsp;drift</tt></dd></dl>
+ <dl><dt><a name="-generatelabels"><strong>generatelabels</strong></a>(chance, labels, amount)</dt></dl>
+ <dl><dt><a name="-gradualchange"><strong>gradualchange</strong></a>(mean, std)</dt></dl>
+ <dl><dt><a name="-improved_number_to_bit_array"><strong>improved_number_to_bit_array</strong></a>(array, modulo)</dt><dd><tt>#&nbsp;loads&nbsp;number&nbsp;to&nbsp;bit&nbsp;and&nbsp;pushes&nbsp;them&nbsp;to&nbsp;the&nbsp;right&nbsp;without&nbsp;overflow<br>
+#&nbsp;also&nbsp;has&nbsp;a&nbsp;signed&nbsp;bit&nbsp;at&nbsp;the&nbsp;beginning&nbsp;for&nbsp;negative&nbsp;numbers</tt></dd></dl>
+ <dl><dt><a name="-incrementalchange"><strong>incrementalchange</strong></a>(mean, std, index)</dt></dl>
+ <dl><dt><a name="-loaddata"><strong>loaddata</strong></a>(location, bits)</dt></dl>
+ <dl><dt><a name="-number_to_bitarray"><strong>number_to_bitarray</strong></a>(array, modulo)</dt><dd><tt>#&nbsp;bad&nbsp;example&nbsp;of&nbsp;bit&nbsp;pusher</tt></dd></dl>
+ <dl><dt><a name="-split_list"><strong>split_list</strong></a>(a_list)</dt><dd><tt>#splits&nbsp;list&nbsp;in&nbsp;half</tt></dd></dl>
+ <dl><dt><a name="-suddenchange"><strong>suddenchange</strong></a>(mean, std)</dt></dl>
+</td></tr></table>
+</body></html>
